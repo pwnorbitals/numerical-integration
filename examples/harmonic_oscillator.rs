@@ -11,6 +11,10 @@ fn main() {
     // use maths_traits::analysis::*;
     // use maths_traits::analysis::Exponential;
 
+    //
+    //A simple 2D vector impl
+    //
+
     #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
     pub struct Vec2<T> {
         pub x: T,
@@ -129,20 +133,42 @@ fn main() {
     impl<T> MulAssociative for Vec2<T> {}
     impl<T> AddCommutative for Vec2<T> {}
     impl<T> MulCommutative for Vec2<T> {}
+    impl<T> Distributive<T> for Vec2<T> {}
 
+    //
+    //A simple harmonic oscillator simulation
+    //
+    //we use a vec2 for the state vector, where the x coord is the position
+    //and the y coord is the velocity
+    //
+
+    //the x-coord of the derivative is y since it is the velocity
+    //and the y coord of the derivative is -x as dv/dt = -x
     fn f(t: f64, y: Vec2<f64>) -> Vec2<f64> { Vec2 { x:y.y, y:-y.x } }
+
+    //shifts the velocity into x and sets y to be 0
     fn v(t: f64, y: Vec2<f64>) -> Vec2<f64> { Vec2 { x:y.y, y:0.0 } }
 
-    let dt = 0.125;
+    //the time-step
+    let dt = 0.1;
+
+    //init
     let mut t = 0.0;
     let mut y0 = Vec2{x:1.0, y:0.0};
     let mut y1 = VelocityVerlet.init_with_vel(y0, dt, &v, &f);
+
     // let mut y2 = RK4.init(y0, dt, &f);
     // let mut y3 = RK4.init(y0, dt, &f);
 
     for i in 0..100 {
-        println!("{:?} {}", VelocityVerlet.step_with_vel(t, y1.as_mut(), dt, &v, &f), (t+dt).exp());
+
+        let yi = VelocityVerlet.step_with_vel(t, y1.as_mut(), dt, &v, &f);
         t += dt;
+
+        println!(
+            "{:>6.3} | {:>10.7} {:>10.7} | {:>10.7} {:>10.6} ",
+            t, yi.x, yi.y, t.cos(), -t.sin()
+        );
     }
 
 
