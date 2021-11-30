@@ -170,7 +170,7 @@ pub const DORMAND_PRINCE: AdaptiveRungeKutta = AdaptiveRungeKutta(
 
 
 impl<'a> RungeKutta<'a> {
-    pub fn order(&self) -> usize {(self.0.len()-1)}
+    pub fn order(&self) -> usize {self.0.len()-1}
     pub fn from_matrix(rk_matrix: &'a[&'a[f64]]) -> Result<Self, RKError> {
         match ButcherTableau::new(rk_matrix)? {
             ButcherTableau::Fixed(t) => Ok(RungeKutta(t)),
@@ -181,7 +181,7 @@ impl<'a> RungeKutta<'a> {
 }
 
 impl<'a> AdaptiveRungeKutta<'a> {
-    pub fn order(&self) -> usize {(self.0[0].len()-1)}
+    pub fn order(&self) -> usize {self.0[0].len()-1}
     pub fn from_matrix(rk_matrix: &'a[&'a[f64]]) -> Result<Self, RKError> {
         match ButcherTableau::new(rk_matrix)? {
             ButcherTableau::Adaptive(t) => Ok(AdaptiveRungeKutta(t)),

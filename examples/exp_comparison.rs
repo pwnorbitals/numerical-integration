@@ -12,7 +12,7 @@ fn main() {
     //
 
     //the derivative of the exponential is itself
-    fn f(t: f64, y: f64) -> f64 { y }
+    fn f(_t: f64, y: f64) -> f64 { y }
 
     //the time-step
     let dt = 0.125;
@@ -27,7 +27,7 @@ fn main() {
     println!();
     println!("|      t|     Euler|       RK4|f64::exp()|");
 
-    for i in 0..100 {
+    for _ in 0..100 {
         //compute the next step and print
         println!(
             "|{: >7.3}|{: >10.2}|{: >10.2}|{: >10.2}|",

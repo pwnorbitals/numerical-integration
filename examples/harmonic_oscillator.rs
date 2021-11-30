@@ -21,12 +21,12 @@ fn main() {
         pub y: T,
     }
 
-    impl<T> Vec2<T> {
-        #[inline]
-        pub fn new(x: T, y: T) -> Self {
-            Vec2 { x: x, y: y }
-        }
-    }
+    // impl<T> Vec2<T> {
+    //     #[inline]
+    //     pub fn new(x: T, y: T) -> Self {
+    //         Vec2 { x: x, y: y }
+    //     }
+    // }
 
     impl<T: Add<Output=T>> Add for Vec2<T> {
         type Output = Self;
@@ -144,23 +144,23 @@ fn main() {
 
     //the x-coord of the derivative is y since it is the velocity
     //and the y coord of the derivative is -x as dv/dt = -x
-    fn f(t: f64, y: Vec2<f64>) -> Vec2<f64> { Vec2 { x:y.y, y:-y.x } }
+    fn f(_t: f64, y: Vec2<f64>) -> Vec2<f64> { Vec2 { x:y.y, y:-y.x } }
 
     //shifts the velocity into x and sets y to be 0
-    fn v(t: f64, y: Vec2<f64>) -> Vec2<f64> { Vec2 { x:y.y, y:0.0 } }
+    fn v(_t: f64, y: Vec2<f64>) -> Vec2<f64> { Vec2 { x:y.y, y:0.0 } }
 
     //the time-step
     let dt = 0.1;
 
     //init
     let mut t = 0.0;
-    let mut y0 = Vec2{x:1.0, y:0.0};
+    let y0 = Vec2{x:1.0, y:0.0};
     let mut y1 = VelocityVerlet.init_with_vel(y0, dt, &v, &f);
 
     // let mut y2 = RK4.init(y0, dt, &f);
     // let mut y3 = RK4.init(y0, dt, &f);
 
-    for i in 0..100 {
+    for _ in 0..100 {
 
         let yi = VelocityVerlet.step_with_vel(t, y1.as_mut(), dt, &v, &f);
         t += dt;
