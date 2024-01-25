@@ -2,7 +2,7 @@
 name = "numerical-integration"
 authors = ["Joshua Smith <jsmith62831@gmail.com>"]
 description = "Algorithms and traits for numerical approximation"
-version = "0.0.1"
+version = "0.1.0"
 edition = "2021"
 keywords = ["mathematics", "calculus", "integration", "algorithms", "approximation"]
 categories = ["algorithms", "science"]
